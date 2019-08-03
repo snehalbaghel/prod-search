@@ -11,6 +11,7 @@ test('Search wrist watches', async t => {
     await amazon.checkLeather()
     await amazon.checkBrand()
     await amazon.clickDiscount()
+    await amazon.exportPrices()
     // await t
     //     .typeText('#twotabsearchtextbox', 'Wrist Watches')
     //     .click('#nav-search-submit-text');

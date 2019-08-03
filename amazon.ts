@@ -1,5 +1,13 @@
 import { Selector, t } from 'testcafe';
+const json2xls = require('json2xls');
+const fs = require('fs');
 
+
+
+interface Product {
+    name: string,
+    price: string,
+  }
 
 export default class Amazon {
 
@@ -71,7 +79,7 @@ export default class Amazon {
             .click(selectBrand)
     }
 
-    async clickDiscount(){
+    async clickDiscount() {
         let filters = Selector('#filters')
                             .find('.a-section.a-spacing-small')
                             .find('span')
@@ -84,6 +92,40 @@ export default class Amazon {
         await t
             .click(discountEl)
                                        
+    }
+
+    async exportPrices() {
+        let productNames = Selector('span.a-size-base-plus.a-color-base.a-text-normal')
+
+        let productList: Array<Product> = [];
+
+        var count = await productNames.count;
+
+        for(let i = 0; i < count; i++) {
+            let newP: Product = {
+                name: await productNames.nth(i).innerText,
+                price: '0',
+            }
+            productList.push(newP)
+        }
+
+        let productPrices = Selector('span.a-price-whole')
+
+        for(let i = 0; i < count; i++) {
+            productList[i].price = await productPrices.nth(i).innerText
+        }
+
+        let data = JSON.parse(JSON.stringify(productList))
+
+        try {
+            const xls = json2xls(data);
+            fs.writeFileSync('data.xlsx', xls, 'binary');
+
+        } catch (e) {
+            console.log(e)
+            console.error('export error');
+        }
+
     }
 
  }
