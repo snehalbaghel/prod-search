@@ -1,8 +1,7 @@
 import { Selector, t } from 'testcafe';
+import { filter } from 'minimatch';
 const json2xls = require('json2xls');
 const fs = require('fs');
-
-
 
 interface Product {
     name: string,
@@ -13,13 +12,20 @@ export default class Amazon {
 
     mainSearchField: Selector
     alalougeCheck: Selector
-    // filters: Selector
 
     constructor() {
         this.mainSearchField = Selector('#twotabsearchtextbox')
-        // this.filters = Selector('#filters')
-                            // .find('#p_n_feature_seven_browse-bin-title')
-                            // .find('span')
+    }
+
+    getSidebarSel(title: string, sel: string): Selector {
+        return Selector('#filters')
+            .find('.a-section.a-spacing-small')
+            .find('span')
+            .withExactText(title)
+            .parent()
+            .nextSibling()
+            .find('span')
+            .withExactText(sel)
 
     }
 
@@ -30,14 +36,9 @@ export default class Amazon {
     }
 
     async checkAnaloug() {
-        let filters = Selector('#filters')
-        .find('.a-section.a-spacing-small')
-        .find('span')
-        let analougCB: Selector = filters.withExactText("Watch Display Type")
-                                        .parent()
-                                        .nextSibling()
-                                        .find('span')
-                                        .withExactText("Analogue")
+        let sidebarSel: Selector = this.getSidebarSel("Watch Display Type", "Analogue")
+
+        let analougCB: Selector =  sidebarSel
                                         .prevSibling()
                                         .find('input')
         await t
@@ -45,14 +46,9 @@ export default class Amazon {
     }
 
     async checkLeather() {
-        let filters = Selector('#filters')
-                            .find('.a-section.a-spacing-small')
-                            .find('span')
-        let leatherCB: Selector = filters.withExactText("Band Material")
-                                        .parent()
-                                        .nextSibling()
-                                        .find('span')
-                                        .withExactText("Leather")
+        let sidebarSel: Selector = this.getSidebarSel("Band Material", "Leather")
+
+        let leatherCB: Selector =  sidebarSel                
                                         .prevSibling()
                                         .find('input')
         await t
@@ -80,14 +76,7 @@ export default class Amazon {
     }
 
     async clickDiscount() {
-        let filters = Selector('#filters')
-                            .find('.a-section.a-spacing-small')
-                            .find('span')
-        let discountEl: Selector = filters.withExactText("Discount")
-                                        .parent()
-                                        .nextSibling()
-                                        .find('span')
-                                        .withExactText("25% Off or more")
+        let discountEl: Selector = this.getSidebarSel("Discount", "25% Off or more")
 
         await t
             .click(discountEl)
