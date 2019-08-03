@@ -30,9 +30,8 @@ export default class Amazon {
     }
 
     async search() {
-        await t
-            .typeText(this.mainSearchField, "Wrist Watches")
-            .pressKey('enter')
+        await t.typeText(this.mainSearchField, "Wrist Watches")
+                .pressKey('enter')
     }
 
     async checkAnaloug() {
@@ -41,8 +40,7 @@ export default class Amazon {
         let analougCB: Selector =  sidebarSel
                                         .prevSibling()
                                         .find('input')
-        await t
-            .click(analougCB)
+        await t.click(analougCB)
     }
 
     async checkLeather() {
@@ -51,8 +49,7 @@ export default class Amazon {
         let leatherCB: Selector =  sidebarSel                
                                         .prevSibling()
                                         .find('input')
-        await t
-            .click(leatherCB)
+        await t.click(leatherCB)
 
     }
 
@@ -63,29 +60,25 @@ export default class Amazon {
                                 .find('span')
                                 .withExactText('See more')
 
-        await t
-            .click(brandRefine)
+        await t.click(brandRefine)
 
         let selectBrand = Selector('#refinementList')
                                 .child()
                                 .find('span.refinementLink')
                                 .withExactText('Titan')
 
-        await t
-            .click(selectBrand)
+        await t.click(selectBrand)
     }
 
     async clickDiscount() {
         let discountEl: Selector = this.getSidebarSel("Discount", "25% Off or more")
 
-        await t
-            .click(discountEl)
+        await t.click(discountEl)
                                        
     }
 
     async exportPrices() {
         let productNames = Selector('span.a-size-base-plus.a-color-base.a-text-normal')
-
         let productList: Array<Product> = [];
 
         var count = await productNames.count;
@@ -117,4 +110,16 @@ export default class Amazon {
 
     }
 
+    async getNth(i: number) {
+        let productNames = Selector('span.a-size-base-plus.a-color-base.a-text-normal')
+        let productPrices = Selector('span.a-price-whole')
+
+        const nth: Product = {
+            name: await productNames.nth(i-1).innerText,
+            price: await productPrices.nth(i-1).innerText,
+        }
+
+        console.log(JSON.stringify(nth))
+
+    }
  }
