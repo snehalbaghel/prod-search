@@ -1,5 +1,4 @@
 import { Selector, t } from 'testcafe';
-import { filter } from 'minimatch';
 const json2xls = require('json2xls');
 const fs = require('fs');
 
