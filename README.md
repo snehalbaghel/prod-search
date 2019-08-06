@@ -18,12 +18,13 @@ or
 testcafe {browser} test.ts
 ```
 ### Browsers supported
-
-Chromium	            chromium
-Google Chrome	        chrome
-Google Chrome Canary	chrome-canary
-Internet Explorer	    ie
-Microsoft Edge	        edge
-Mozilla Firefox	        firefox
-Opera	                opera
-Safari	                safari
+Browser | Code
+--- | ---
+Chromium	           | chromium
+Google Chrome	       | chrome
+Google Chrome Canary   | chrome-canary
+Internet Explorer	   | ie
+Microsoft Edge	       | edge
+Mozilla Firefox	       | firefox
+Opera	               | opera
+Safari	               | safari
